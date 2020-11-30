@@ -1,0 +1,37 @@
+// Запуск 3 серверов
+"C:\Program Files\MongoDB\Server\4.4\bin\mongod.exe" --port 27018 --replSet rs0  --dbpath="c:\data\db"
+"C:\Program Files\MongoDB\Server\4.4\bin\mongod.exe" --port 27019 --replSet rs0  --dbpath="c:\data\db2"
+"C:\Program Files\MongoDB\Server\4.4\bin\mongod.exe" --port 27020 --replSet rs0  --dbpath="c:\data\db3"
+// Запуск клиента
+"C:\Program Files\MongoDB\Server\4.4\bin\mongo.exe" --port 27018
+
+rs.initiate ()
+rs.status()
+rs.add("localhost:27019")
+rs.add("localhost:27020")
+
+// Создание бд и 2 коллекций
+use server
+
+db.createCollection("session")
+db.createCollection("account")
+
+db.account.insertOne(
+	{
+		"GUID":1,
+		"Login":"Slava",
+		"Password":"pass",
+		"Admin":"false"
+	}
+)
+
+db.account.insertOne(
+	{
+		"GUID":2,
+		"Login":"Masha",
+		"Password":"pass",
+		"Admin":"false"
+	}
+)
+
+//
